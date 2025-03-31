@@ -34,33 +34,3 @@ h1 {
   font-size: 3.2em;
   line-height: 1.1;
 }
-
-@keyframes slide-fade-in {
-  from {
-    opacity: 0;
-    transform: translateX(-10px);
-  }
-  to {
-    opacity: 1;
-    transform: translateX(0);
-  }
-}
-
-@keyframes slide-fade-out {
-  from {
-    opacity: 1;
-    transform: translateX(0);
-  }
-  to {
-    opacity: 0;
-    transform: translateX(10px);
-  }
-}
-
-.animate-slide-fade-in {
-  animation: slide-fade-in 0.3s ease-in-out;
-}
-
-.animate-slide-fade-out {
-  animation: slide-fade-out 0.3s ease-in-out;
-}

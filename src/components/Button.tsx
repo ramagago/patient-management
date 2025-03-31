@@ -16,10 +16,10 @@ const Button: React.FC<ButtonProps> = ({
   ...props
 }) => {
   const baseStyles =
-    'inline-flex items-center justify-center font-medium rounded-2xl focus:outline-none focus:ring-2 focus:ring-offset-2 transition-colors'
+    'inline-flex items-center justify-center font-medium rounded-xl focus:outline-none focus:ring-2 focus:ring-offset-2 transition-colors'
 
   const variants = {
-    primary: 'bg-gray-600 text-white hover:bg-gray-700 focus:ring-gray-500',
+    primary: 'bg-gray-600 text-white hover:bg-gray-800 focus:ring-gray-500',
     secondary:
       'bg-gray-200 text-gray-700 hover:bg-gray-300 focus:ring-gray-500',
     danger: 'bg-red-700 text-white hover:bg-red-800 focus:ring-red-500',

@@ -14,6 +14,8 @@ function AppContent() {
   const [isModalOpen, setIsModalOpen] = useState(false)
   const [selectedPatient, setSelectedPatient] = useState<Patient | undefined>()
   const [isSubmitting, setIsSubmitting] = useState(false)
+  const [isConfirmModalOpen, setIsConfirmModalOpen] = useState(false)
+  const [patientToDelete, setPatientToDelete] = useState<string | null>(null)
   const { showToast } = useToast()
 
   useEffect(() => {
@@ -45,16 +47,23 @@ function AppContent() {
     setIsModalOpen(true)
   }
 
-  const handleDeletePatient = async (id: string) => {
-    if (window.confirm('Are you sure you want to delete this patient?')) {
-      try {
-        await apiService.deletePatient(id)
-        setPatients(patients.filter((p) => p.id !== id))
-        showToast('Patient deleted successfully', 'success')
-      } catch (error) {
-        showToast('Failed to delete patient', 'error')
-        console.error('Error deleting patient:', error)
-      }
+  const handleDeletePatient = (id: string) => {
+    setPatientToDelete(id)
+    setIsConfirmModalOpen(true)
+  }
+  const confirmDeletePatient = async () => {
+    if (!patientToDelete) return
+
+    try {
+      await apiService.deletePatient(patientToDelete)
+      setPatients(patients.filter((p) => p.id !== patientToDelete))
+      showToast('Patient deleted successfully', 'success')
+    } catch (error) {
+      showToast('Failed to delete patient', 'error')
+      console.error('Error deleting patient:', error)
+    } finally {
+      setIsConfirmModalOpen(false)
+      setPatientToDelete(null)
     }
   }
 
@@ -144,6 +153,24 @@ function AppContent() {
             }}
             isLoading={isSubmitting}
           />
+        </Modal>
+        <Modal
+          isOpen={isConfirmModalOpen}
+          onClose={() => setIsConfirmModalOpen(false)}
+          title="Confirm Deletion"
+        >
+          <p>Are you sure you want to delete this patient?</p>
+          <div className="flex justify-end space-x-2 mt-4">
+            <Button
+              variant="secondary"
+              onClick={() => setIsConfirmModalOpen(false)}
+            >
+              Cancel
+            </Button>
+            <Button onClick={confirmDeletePatient} variant="danger">
+              Delete
+            </Button>
+          </div>
         </Modal>
       </div>
     </div>

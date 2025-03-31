@@ -1,10 +1,11 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react'
 
 interface ToastProps {
-  message: string;
-  type: 'success' | 'error';
-  onClose: () => void;
-  duration?: number;
+  id: string
+  message: string
+  type: 'success' | 'error'
+  onClose: () => void
+  duration?: number
 }
 
 const Toast: React.FC<ToastProps> = ({
@@ -13,23 +14,34 @@ const Toast: React.FC<ToastProps> = ({
   onClose,
   duration = 3000,
 }) => {
-  useEffect(() => {
-    const timer = setTimeout(() => {
-      onClose();
-    }, duration);
+  const [fadeOut, setFadeOut] = useState(false)
 
-    return () => clearTimeout(timer);
-  }, [duration, onClose]);
+  useEffect(() => {
+    // Inicia el temporizador para la salida
+    const timer = setTimeout(() => {
+      setFadeOut(true) // Activa la animación de salida
+      setTimeout(() => {
+        onClose() // Elimina el toast después de la animación
+      }, 300) // Debe coincidir con la duración de la animación CSS
+    }, duration)
+
+    return () => clearTimeout(timer)
+  }, [duration, onClose])
 
   const baseStyles =
-    'fixed bottom-4 right-4 px-6 py-3 rounded-lg shadow-lg transform transition-all duration-300 ease-in-out z-50';
+    'fixed bottom-4 right-4 px-6 py-3 rounded-lg shadow-lg transform transition-all duration-300 ease-in-out z-50'
+
   const typeStyles = {
     success: 'bg-green-500 text-white',
     error: 'bg-red-500 text-white',
-  };
+  }
 
   return (
-    <div className={`${baseStyles} ${typeStyles[type]}`}>
+    <div
+      className={`${baseStyles} ${typeStyles[type]} ${
+        fadeOut ? 'animate-slide-fade-out' : 'animate-slide-fade-in'
+      }`}
+    >
       <div className="flex items-center">
         {type === 'success' ? (
           <svg
@@ -63,7 +75,7 @@ const Toast: React.FC<ToastProps> = ({
         <span>{message}</span>
       </div>
     </div>
-  );
-};
+  )
+}
 
-export default Toast;
+export default Toast

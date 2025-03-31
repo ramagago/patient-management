@@ -43,13 +43,13 @@ const PatientCard: React.FC<PatientCardProps> = ({
               href={patient.website}
               target="_blank"
               rel="noopener noreferrer"
-              className="text-sm text-blue-600 hover:text-blue-800"
+              className="text-sm font-medium text-blue-800 hover:text-blue-600"
             >
               Visit Website
             </a>
             <button
               onClick={() => setIsExpanded(!isExpanded)}
-              className="text-sm text-gray-500 hover:text-gray-700 flex justify-between items-center"
+              className="text-sm text-gray-700 hover:text-gray-500 flex justify-between items-center"
             >
               <span> {isExpanded ? 'Show Less' : 'Show More'}</span>
               <IoIosArrowUp
